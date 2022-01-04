@@ -54,14 +54,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: suzuki-shunsuke/github-action-renovate-config-validator@v0.1.1
+      - uses: suzuki-shunsuke/github-action-renovate-config-validator@v0.1.2
 ```
 
 You can specify renovate-config-validator version and configuration file path.
 
 ```yaml
 steps:
-  - uses: suzuki-shunsuke/github-action-renovate-config-validator@v0.1.1
+  - uses: suzuki-shunsuke/github-action-renovate-config-validator@v0.1.2
     with:
       validator_version: "31.15.0"
       config_file_path: renovate.json5
