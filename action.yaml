@@ -1,4 +1,4 @@
-name: renovate-config-validator
+name: Validate Renovate Configuration with renovate-config-validator
 description: |
   Validate Renovate Configuration with renovate-config-validator.
   npx is required.
