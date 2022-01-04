@@ -1,4 +1,8 @@
 name: Validate Renovate Configuration with renovate-config-validator
+author: Shunsuke Suzuki
+branding:
+  icon: 'check'
+  color: 'yellow'
 description: |
   Validate Renovate Configuration with renovate-config-validator.
   npx is required.
