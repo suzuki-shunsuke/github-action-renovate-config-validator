@@ -1,0 +1,48 @@
+name: renovate-config-validator
+description: |
+  Validate Renovate Configuration with renovate-config-validator.
+  npx is required.
+inputs:
+  validator_version:
+    description: 'version of renovate-config-validator. By default, the latest version is used.'
+    required: false
+  config_file_path:
+    description: |
+      Renovate Configuration file
+      By default, the following files are validated.
+
+      * .github/renovate.json
+      * .github/renovate.json5
+      * .gitlab/renovate.json
+      * .gitlab/renovate.json5
+      * .renovaterc.json
+      * renovate.json
+      * renovate.json5
+      * .renovaterc
+    required: false
+runs:
+  using: composite
+  steps:
+    - name: Validate Renovate Configuration with renovate-config-validator
+      run: |
+        pkg=renovate
+        if [ -n "${{ inputs.validator_version }}" ]; then
+          pkg=renovate@${{ inputs.validator_version }}
+        fi
+        if [ -n "${{ inputs.config_file_path }}" ]; then
+          echo "===> RENOVATE_CONFIG_FILE=\"${{ inputs.config_file_path }}\" npx --package \"$pkg\" -c renovate-config-validator" >&2
+          RENOVATE_CONFIG_FILE="${{ inputs.config_file_path }}" npx --package "$pkg" -c renovate-config-validator
+          exit 0
+        fi
+        missing=true
+        for file in .github/renovate.json .github/renovate.json5 .gitlab/renovate.json .gitlab/renovate.json5 .renovaterc.json renovate.json renovate.json5 .renovaterc; do
+          if [ -f "$file" ]; then
+            missing=false
+            echo "===> RENOVATE_CONFIG_FILE=\"$file\" npx --package \"$pkg\" -c renovate-config-validator" >&2
+            RENOVATE_CONFIG_FILE="$file" npx --package "$pkg" -c renovate-config-validator
+          fi
+        done
+        if [ "$missing" = "true" ]; then
+          echo "===> No configuration file is found" >&2
+        fi
+      shell: bash

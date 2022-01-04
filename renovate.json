@@ -1,0 +1,10 @@
+{
+  "extends": [
+    "config:base",
+    "github>aquaproj/aqua-renovate-config:0.1.8"
+  ],
+  "automerge": true,
+  "major": {
+    "automerge": false
+  }
+}
