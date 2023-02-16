@@ -29,6 +29,7 @@ By default, the following files are validated.
 * .gitlab/renovate.json
 * .gitlab/renovate.json5
 * .renovaterc.json
+* .renovaterc.json5
 * renovate.json
 * renovate.json5
 * .renovaterc

@@ -20,6 +20,7 @@ inputs:
       * .gitlab/renovate.json
       * .gitlab/renovate.json5
       * .renovaterc.json
+      * .renovaterc.json5
       * renovate.json
       * renovate.json5
       * .renovaterc
@@ -39,7 +40,7 @@ runs:
           exit 0
         fi
         missing=true
-        for file in .github/renovate.json .github/renovate.json5 .gitlab/renovate.json .gitlab/renovate.json5 .renovaterc.json renovate.json renovate.json5 .renovaterc; do
+        for file in .github/renovate.json .github/renovate.json5 .gitlab/renovate.json .gitlab/renovate.json5 .renovaterc.json .renovaterc.json5 renovate.json renovate.json5 .renovaterc; do
           if [ -f "$file" ]; then
             missing=false
             echo "===> RENOVATE_CONFIG_FILE=\"$file\" npx --package \"$pkg\" -c renovate-config-validator" >&2
