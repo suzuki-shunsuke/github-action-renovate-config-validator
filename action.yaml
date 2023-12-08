@@ -1,29 +1,29 @@
 name: Validate Renovate Configuration with renovate-config-validator
 author: Shunsuke Suzuki
 branding:
-  icon: 'check'
-  color: 'yellow'
+  icon: check
+  color: yellow
 description: |
   Validate Renovate Configuration with renovate-config-validator.
   npx is required.
 inputs:
   validator_version:
-    description: 'version of renovate-config-validator. By default, the latest version is used.'
+    description: version of renovate-config-validator. By default, the latest version is used.
     required: false
   config_file_path:
     description: |
       Renovate Configuration file
       By default, the following files are validated.
 
-      * .github/renovate.json
-      * .github/renovate.json5
-      * .gitlab/renovate.json
-      * .gitlab/renovate.json5
-      * .renovaterc.json
-      * .renovaterc.json5
-      * renovate.json
-      * renovate.json5
-      * .renovaterc
+      - .github/renovate.json
+      - .github/renovate.json5
+      - .gitlab/renovate.json
+      - .gitlab/renovate.json5
+      - .renovaterc.json
+      - .renovaterc.json5
+      - renovate.json
+      - renovate.json5
+      - .renovaterc
     required: false
 runs:
   using: composite
