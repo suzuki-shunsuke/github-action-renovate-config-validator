@@ -50,8 +50,8 @@ runs:
         fi
 
         if [ -n "$CONFIG_FILE_PATH" ]; then
-          echo "===> RENOVATE_CONFIG_FILE=\"$CONFIG_FILE_PATH\" npx --package \"$pkg\" -c renovate-config-validator $opts" >&2
-          RENOVATE_CONFIG_FILE="$CONFIG_FILE_PATH" npx --package "$pkg" -c renovate-config-validator $opts
+          echo "===> RENOVATE_CONFIG_FILE=\"$CONFIG_FILE_PATH\" npx --package \"$pkg\" -c \"renovate-config-validator $opts\"" >&2
+          RENOVATE_CONFIG_FILE="$CONFIG_FILE_PATH" npx --package "$pkg" -c "renovate-config-validator $opts"
           exit 0
         fi
 
@@ -59,8 +59,8 @@ runs:
         for file in .github/renovate.json .github/renovate.json5 .gitlab/renovate.json .gitlab/renovate.json5 .renovaterc.json .renovaterc.json5 renovate.json renovate.json5 .renovaterc; do
           if [ -f "$file" ]; then
             missing=false
-            echo "===> RENOVATE_CONFIG_FILE=\"$file\" npx --package \"$pkg\" -c renovate-config-validator $opts" >&2
-            RENOVATE_CONFIG_FILE="$file" npx --package "$pkg" -c renovate-config-validator $opts
+            echo "===> RENOVATE_CONFIG_FILE=\"$file\" npx --package \"$pkg\" -c \"renovate-config-validator $opts\"" >&2
+            RENOVATE_CONFIG_FILE="$file" npx --package "$pkg" -c "renovate-config-validator $opts"
           fi
         done
         if [ "$missing" = "true" ]; then
