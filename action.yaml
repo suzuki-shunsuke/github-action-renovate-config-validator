@@ -31,12 +31,12 @@ runs:
     - name: Validate Renovate Configuration with renovate-config-validator
       run: |
         pkg=renovate
-        if [ -n "${{ inputs.validator_version }}" ]; then
-          pkg=renovate@${{ inputs.validator_version }}
+        if [ -n "$VALIDATOR_VERSION" ]; then
+          pkg="renovate@$VALIDATOR_VERSION"
         fi
-        if [ -n "${{ inputs.config_file_path }}" ]; then
-          echo "===> RENOVATE_CONFIG_FILE=\"${{ inputs.config_file_path }}\" npx --package \"$pkg\" -c renovate-config-validator" >&2
-          RENOVATE_CONFIG_FILE="${{ inputs.config_file_path }}" npx --package "$pkg" -c renovate-config-validator
+        if [ -n "$CONFIG_FILE_PATH" ]; then
+          echo "===> RENOVATE_CONFIG_FILE=\"$CONFIG_FILE_PATH\" npx --package \"$pkg\" -c renovate-config-validator" >&2
+          RENOVATE_CONFIG_FILE="$CONFIG_FILE_PATH" npx --package "$pkg" -c renovate-config-validator
           exit 0
         fi
         missing=true
@@ -51,3 +51,6 @@ runs:
           echo "===> No configuration file is found" >&2
         fi
       shell: bash
+      env:
+        VALIDATOR_VERSION: ${{inputs.validator_version}}
+        CONFIG_FILE_PATH: ${{inputs.config_file_path}}
