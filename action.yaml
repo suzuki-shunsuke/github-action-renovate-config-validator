@@ -7,6 +7,10 @@ description: |
   Validate Renovate Configuration with renovate-config-validator.
   npx is required.
 inputs:
+  strict:
+    description: Either true of false. If it's true, renovate-config-validator's --strict option is set
+    default: "true"
+    required: false
   validator_version:
     description: version of renovate-config-validator. By default, the latest version is used.
     required: false
@@ -30,21 +34,33 @@ runs:
   steps:
     - name: Validate Renovate Configuration with renovate-config-validator
       run: |
+        set -eu
         pkg=renovate
+
+        opts=""
+        if [ "$STRICT" = "true" ]; then
+          opts=--strict
+        elif [ "$STRICT" != "false" ]; then
+          echo '::error:: the input 'strict' must be "true" or "false"'
+          exit 1
+        fi
+
         if [ -n "$VALIDATOR_VERSION" ]; then
           pkg="renovate@$VALIDATOR_VERSION"
         fi
+
         if [ -n "$CONFIG_FILE_PATH" ]; then
-          echo "===> RENOVATE_CONFIG_FILE=\"$CONFIG_FILE_PATH\" npx --package \"$pkg\" -c renovate-config-validator" >&2
-          RENOVATE_CONFIG_FILE="$CONFIG_FILE_PATH" npx --package "$pkg" -c renovate-config-validator
+          echo "===> RENOVATE_CONFIG_FILE=\"$CONFIG_FILE_PATH\" npx --package \"$pkg\" -c \"renovate-config-validator $opts\"" >&2
+          RENOVATE_CONFIG_FILE="$CONFIG_FILE_PATH" npx --package "$pkg" -c "renovate-config-validator $opts"
           exit 0
         fi
+
         missing=true
         for file in .github/renovate.json .github/renovate.json5 .gitlab/renovate.json .gitlab/renovate.json5 .renovaterc.json .renovaterc.json5 renovate.json renovate.json5 .renovaterc; do
           if [ -f "$file" ]; then
             missing=false
-            echo "===> RENOVATE_CONFIG_FILE=\"$file\" npx --package \"$pkg\" -c renovate-config-validator" >&2
-            RENOVATE_CONFIG_FILE="$file" npx --package "$pkg" -c renovate-config-validator
+            echo "===> RENOVATE_CONFIG_FILE=\"$file\" npx --package \"$pkg\" -c \"renovate-config-validator $opts\"" >&2
+            RENOVATE_CONFIG_FILE="$file" npx --package "$pkg" -c "renovate-config-validator $opts"
           fi
         done
         if [ "$missing" = "true" ]; then
@@ -54,3 +70,4 @@ runs:
       env:
         VALIDATOR_VERSION: ${{inputs.validator_version}}
         CONFIG_FILE_PATH: ${{inputs.config_file_path}}
+        STRICT: ${{inputs.strict}}

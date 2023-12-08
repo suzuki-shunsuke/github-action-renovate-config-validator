@@ -10,6 +10,15 @@ npx
 
 Please see [action.yaml](action.yaml) too.
 
+### `strict`
+
+required: false
+
+The input was introduced from v1.0.0.
+Either `true` of `false`.
+If it's `true`, renovate-config-validator's --strict option is set.
+The default is `true`.
+
 ### `validator_version`
 
 required: false
@@ -66,6 +75,7 @@ steps:
     with:
       validator_version: "31.15.0"
       config_file_path: renovate.json5
+      strict: "false"
 ```
 
 ## Liencse
