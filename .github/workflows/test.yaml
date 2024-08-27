@@ -26,7 +26,13 @@ jobs:
         run: |
           set -euo pipefail
           files=$(git ls-files | grep renovate.json)
-          echo "files=$files" >> "$GITHUB_OUTPUT"
+          # https://stackoverflow.com/a/74232400
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          {
+            echo "files<<$EOF"
+            echo "$files"
+            echo "$EOF"
+          } >> "$GITHUB_OUTPUT"
       - name: Pass files through output
         uses: ./
         with:
