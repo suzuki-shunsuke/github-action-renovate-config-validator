@@ -52,6 +52,7 @@ runs:
         fi
 
         if [ -n "$CONFIG_FILE_PATH" ]; then
+          IFS='\n'
           for file in "$(echo "$CONFIG_FILE_PATH")"; do
             echo "===> RENOVATE_CONFIG_FILE=\"$file\" npx --yes --package \"$pkg\" -c \"renovate-config-validator $opts\"" >&2
             RENOVATE_CONFIG_FILE="$file" npx --yes --package "$pkg" -c "renovate-config-validator $opts"
