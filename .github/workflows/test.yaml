@@ -12,3 +12,28 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./
+      - name: Test a single file
+        uses: ./
+        with:
+          config_file_path: renovate.json
+      - name: Test multiple files
+        uses: ./
+        with:
+          config_file_path: |
+            renovate.json
+            tests/renovate.json
+      - id: files
+        run: |
+          set -euo pipefail
+          files=$(git ls-files | grep renovate.json)
+          # https://stackoverflow.com/a/74232400
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          {
+            echo "files<<$EOF"
+            echo "$files"
+            echo "$EOF"
+          } >> "$GITHUB_OUTPUT"
+      - name: Pass files through output
+        uses: ./
+        with:
+          config_file_path: ${{ steps.files.outputs.files }}

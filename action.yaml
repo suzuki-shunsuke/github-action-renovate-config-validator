@@ -28,6 +28,8 @@ inputs:
       - renovate.json
       - renovate.json5
       - .renovaterc
+
+      You can specify multiple files by multiple lines.
     required: false
 runs:
   using: composite
@@ -50,8 +52,13 @@ runs:
         fi
 
         if [ -n "$CONFIG_FILE_PATH" ]; then
-          echo "===> RENOVATE_CONFIG_FILE=\"$CONFIG_FILE_PATH\" npx --yes --package \"$pkg\" -c \"renovate-config-validator $opts\"" >&2
-          RENOVATE_CONFIG_FILE="$CONFIG_FILE_PATH" npx --yes --package "$pkg" -c "renovate-config-validator $opts"
+          while read -r file; do
+            if [ -z "$file" ]; then
+              continue
+            fi
+            echo "===> RENOVATE_CONFIG_FILE=\"$file\" npx --yes --package \"$pkg\" -c \"renovate-config-validator $opts\"" >&2
+            RENOVATE_CONFIG_FILE="$file" npx --yes --package "$pkg" -c "renovate-config-validator $opts"
+          done < <(echo "$CONFIG_FILE_PATH")
           exit 0
         fi
 

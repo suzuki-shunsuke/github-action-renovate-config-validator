@@ -43,6 +43,36 @@ By default, the following files are validated.
 * renovate.json5
 * .renovaterc
 
+If you want to validate multiple files, you can pass multile lines.
+Leading spaces on each line are removed.
+
+```yaml
+with:
+  config_file_path: |
+    default.json
+    foo.json
+```
+
+You can pass `config_file_path` through output command.
+
+```yaml
+      - id: files
+        run: |
+          set -euo pipefail
+          files=$(git ls-files | grep renovate.json)
+          # https://stackoverflow.com/a/74232400
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          {
+            echo "files<<$EOF"
+            echo "$files"
+            echo "$EOF"
+          } >> "$GITHUB_OUTPUT"
+      - name: Pass files through output
+        uses: suzuki-shunsuke/github-action-renovate-config-validator@v1.1.0
+        with:
+          config_file_path: ${{ steps.files.outputs.files }}
+```
+
 ## Output
 
 Nothing.
