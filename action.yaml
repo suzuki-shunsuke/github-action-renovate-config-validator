@@ -58,7 +58,6 @@ runs:
           exit 0
         fi
 
-        missing=true
         files=""
         for file in .github/renovate.json .github/renovate.json5 .gitlab/renovate.json .gitlab/renovate.json5 .renovaterc.json .renovaterc.json5 renovate.json renovate.json5 .renovaterc; do
           if [ -f "$file" ]; then
