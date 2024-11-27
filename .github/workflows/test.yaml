@@ -6,7 +6,7 @@ on:
   push:
     branches: [main]
 jobs:
-  default:
+  test:
     timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:

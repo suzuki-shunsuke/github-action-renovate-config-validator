@@ -10,7 +10,7 @@ on:
     paths:
     - .github/**
 jobs:
-  default:
+  actionlint:
     timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
