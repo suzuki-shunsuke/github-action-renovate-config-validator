@@ -43,7 +43,7 @@ runs:
         if [ "$STRICT" = "true" ]; then
           opts=--strict
         elif [ "$STRICT" != "false" ]; then
-          echo "::error:: the input 'strict' must be \"true\" or \"false\""
+          echo '::error:: the input "strict" must be "true" or "false"'
           exit 1
         fi
 
@@ -52,29 +52,25 @@ runs:
         fi
 
         if [ -n "$CONFIG_FILE_PATH" ]; then
-          while read -r file; do
-            if [ -z "$file" ]; then
-              continue
-            fi
-            echo "===> npx --yes --package \"$pkg\" -c \"renovate-config-validator $opts $file\"" >&2
-            npx --yes --package "$pkg" -c "renovate-config-validator $opts $file"
-          done < <(echo "$CONFIG_FILE_PATH")
+          files=$(echo "$CONFIG_FILE_PATH" | tr '\n' ' ')
+          echo "===> npx --yes --package \"$pkg\" -c \"renovate-config-validator $opts $files\"" >&2
+          npx --yes --package "$pkg" -c "renovate-config-validator $opts $files"
           exit 0
-        else
-
-          missing=true
-          for file in .github/renovate.json .github/renovate.json5 .gitlab/renovate.json .gitlab/renovate.json5 .renovaterc.json .renovaterc.json5 renovate.json renovate.json5 .renovaterc; do
-            if [ -f "$file" ]; then
-              missing=false
-              echo "===> npx --yes --package \"$pkg\" -c \"renovate-config-validator $opts $file\"" >&2
-              echo "===> RENOVATE_CONFIG_FILE=\"$file\" npx --yes --package \"$pkg\" -c \"renovate-config-validator $opts\"" >&2
-              npx --yes --package "$pkg" -c "renovate-config-validator $opts $file"
-            fi
-          done
-          if [ "$missing" = "true" ]; then
-            echo "===> No configuration file is found" >&2
-          fi
         fi
+
+        files=""
+        for file in .github/renovate.json .github/renovate.json5 .gitlab/renovate.json .gitlab/renovate.json5 .renovaterc.json .renovaterc.json5 renovate.json renovate.json5 .renovaterc; do
+          if [ -f "$file" ]; then
+            files="$files $file"
+          fi
+        done
+        if [ -z "$files" ]; then
+          echo "===> No configuration file is found" >&2
+          exit 0
+        fi
+
+        echo "===> npx --yes --package \"$pkg\" -c \"renovate-config-validator $opts $files\"" >&2
+        npx --yes --package "$pkg" -c "renovate-config-validator $opts $files"
       shell: bash
       env:
         VALIDATOR_VERSION: ${{inputs.validator_version}}
