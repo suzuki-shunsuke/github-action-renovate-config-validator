@@ -52,8 +52,8 @@ runs:
         fi
 
         if [ -n "$CONFIG_FILE_PATH" ]; then
-          echo "===> npx --yes --package \"$pkg\" -c \"renovate-config-validator $opts $(echo "$CONFIG_FILE_PATH")\"" >&2
-          npx --yes --package "$pkg" -c "renovate-config-validator $opts $(echo "$CONFIG_FILE_PATH")"
+          echo "===> npx --yes --package \"$pkg\" -c \"renovate-config-validator $opts $CONFIG_FILE_PATH\"" >&2
+          npx --yes --package "$pkg" -c "renovate-config-validator $opts $CONFIG_FILE_PATH"
           exit 0
         fi
 
