@@ -1,10 +1,7 @@
 {
   "extends": [
-    "config:recommended",
+    "github>suzuki-shunsuke/renovate-config#3.2.2",
+    "github>suzuki-shunsuke/renovate-config:nolimit#3.2.2",
     "github>aquaproj/aqua-renovate-config#2.8.2"
-  ],
-  "automerge": true,
-  "major": {
-    "automerge": false
-  }
+  ]
 }
