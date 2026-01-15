@@ -69,6 +69,8 @@ runs:
           exit 0
         fi
 
+        version=$(npx --yes --package "$pkg" -c 'renovate --version')
+        echo "===> running renovate $version"
         echo "===> npx --yes --package \"$pkg\" -c \"renovate-config-validator $opts $files\"" >&2
         npx --yes --package "$pkg" -c "renovate-config-validator $opts $files"
       shell: bash
