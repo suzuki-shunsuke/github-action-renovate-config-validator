@@ -51,7 +51,7 @@ runs:
 
         if [ -n "$CONFIG_FILE_PATH" ]; then
           files=$(echo "$CONFIG_FILE_PATH" | tr '\n' ' ')
-          echo "===> npx --yes --package \"$pkg\" -c \"renovate-config-validator $opts $files\"" >&2
+          echo "::notice:: npx --yes --package \"$pkg\" -c \"renovate-config-validator $opts $files\"" >&2
           npx --yes --package "$pkg" -c "renovate-config-validator $opts $files"
           exit 0
         fi
@@ -63,13 +63,13 @@ runs:
           fi
         done
         if [ -z "$files" ]; then
-          echo "===> No configuration file is found" >&2
+          echo "::notice:: No configuration file is found" >&2
           exit 0
         fi
 
         version=$(npx --yes --package "$pkg" -c 'renovate --version')
-        echo "===> running renovate $version"
-        echo "===> npx --yes --package \"$pkg\" -c \"renovate-config-validator $opts $files\"" >&2
+        echo "::notice:: running renovate $version"
+        echo "::notice:: npx --yes --package \"$pkg\" -c \"renovate-config-validator $opts $files\"" >&2
         npx --yes --package "$pkg" -c "renovate-config-validator $opts $files"
       shell: bash
       env:
