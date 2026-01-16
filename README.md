@@ -2,13 +2,22 @@
 
 GitHub Actions for renovate-config-validator
 
-## Requirement
+## :rocket: Recent Update
 
-npx
+- v2.0.0: Node.js 24 is installed by default to support the latest Renovate
 
 ## Input
 
 Please see [action.yaml](action.yaml) too.
+
+## `node-version`
+
+required: false
+
+The input was introduced from v2.0.0.
+As of v2.0.0, this action installs Node.js using actions/setup-node by default.
+If `node-version` is `none`, the installation is skipped.
+We started installing Node.js by default because the Node.js version which is pre-installed into GitHub Actions `ubuntu-latest` runner is old (v20) and doesn't support the latest Renovate.
 
 ### `strict`
 

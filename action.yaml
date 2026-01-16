@@ -7,6 +7,12 @@ description: |
   Validate Renovate Configuration with renovate-config-validator.
   npx is required.
 inputs:
+  node-version:
+    description: |
+      Node.js version. If the version is "none", the node installation is skipped.
+      The version must be compatible with the version of Renovate.
+    default: "24"
+    required: false
   strict:
     description: Either true of false. If it's true, renovate-config-validator's --strict option is set
     default: "true"
@@ -34,6 +40,10 @@ inputs:
 runs:
   using: composite
   steps:
+    - uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
+      if: inputs.node-version != 'none'
+      with:
+        node-version: ${{inputs.node-version}}
     - name: Validate Renovate Configuration with renovate-config-validator
       run: |
         set -eu
