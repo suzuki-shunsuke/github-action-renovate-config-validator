@@ -47,9 +47,7 @@ runs:
           exit 1
         fi
 
-        if [ -n "$VALIDATOR_VERSION" ]; then
-          pkg="renovate@$VALIDATOR_VERSION"
-        fi
+        pkg="renovate@${VALIDATOR_VERSION:-latest}"
 
         if [ -n "$CONFIG_FILE_PATH" ]; then
           files=$(echo "$CONFIG_FILE_PATH" | tr '\n' ' ')
@@ -69,6 +67,8 @@ runs:
           exit 0
         fi
 
+        version=$(npx --yes --package "$pkg" -c 'renovate --version')
+        echo "===> running renovate $version"
         echo "===> npx --yes --package \"$pkg\" -c \"renovate-config-validator $opts $files\"" >&2
         npx --yes --package "$pkg" -c "renovate-config-validator $opts $files"
       shell: bash
