@@ -37,6 +37,12 @@ inputs:
 
       You can specify multiple files by multiple lines.
     required: false
+  npm_cache:
+    description: |
+      Enable npm cache to speed up the installation of renovate.
+      If it's "true", the npm cache is enabled.
+    default: "true"
+    required: false
 runs:
   using: composite
   steps:
@@ -44,6 +50,11 @@ runs:
       if: inputs.node-version != 'none'
       with:
         node-version: ${{inputs.node-version}}
+    - uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
+      if: inputs.npm_cache == 'true'
+      with:
+        path: ~/.npm
+        key: renovate-npm-${{ runner.os }}
     - name: Validate Renovate Configuration with renovate-config-validator
       run: |
         set -eu

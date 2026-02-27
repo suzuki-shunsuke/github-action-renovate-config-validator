@@ -39,3 +39,7 @@ jobs:
         uses: ./
         with:
           config_file_path: ${{ steps.files.outputs.files }}
+      - name: Test with npm_cache disabled
+        uses: ./
+        with:
+          npm_cache: "false"
