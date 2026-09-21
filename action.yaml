@@ -26,12 +26,16 @@ inputs:
       By default, the following files are validated.
 
       - .github/renovate.json
+      - .github/renovate.jsonc
       - .github/renovate.json5
       - .gitlab/renovate.json
+      - .gitlab/renovate.jsonc
       - .gitlab/renovate.json5
       - .renovaterc.json
+      - .renovaterc.jsonc
       - .renovaterc.json5
       - renovate.json
+      - renovate.jsonc
       - renovate.json5
       - .renovaterc
 
@@ -78,7 +82,7 @@ runs:
         fi
 
         files=""
-        for file in .github/renovate.json .github/renovate.json5 .gitlab/renovate.json .gitlab/renovate.json5 .renovaterc.json .renovaterc.json5 renovate.json renovate.json5 .renovaterc; do
+        for file in .github/renovate.json .github/renovate.jsonc .github/renovate.json5 .gitlab/renovate.json .gitlab/renovate.jsonc .gitlab/renovate.json5 .renovaterc.json .renovaterc.jsonc .renovaterc.json5 renovate.json renovate.jsonc renovate.json5 .renovaterc; do
           if [ -f "$file" ]; then
             files="$files $file"
           fi

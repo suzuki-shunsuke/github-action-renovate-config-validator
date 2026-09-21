@@ -44,12 +44,16 @@ Renovate Configuration file path.
 By default, the following files are validated.
 
 * .github/renovate.json
+* .github/renovate.jsonc
 * .github/renovate.json5
 * .gitlab/renovate.json
+* .gitlab/renovate.jsonc
 * .gitlab/renovate.json5
 * .renovaterc.json
+* .renovaterc.jsonc
 * .renovaterc.json5
 * renovate.json
+* renovate.jsonc
 * renovate.json5
 * .renovaterc
 
