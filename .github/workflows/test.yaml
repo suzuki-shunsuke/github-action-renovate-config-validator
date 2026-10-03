@@ -43,3 +43,11 @@ jobs:
         uses: ./
         with:
           npm_cache: "false"
+      - name: Test with a published version of the bundle
+        uses: ./
+        with:
+          validator_version: "44.125.1"
+      - name: Test falling back to renovate if the bundle of the version isn't published
+        uses: ./
+        with:
+          validator_version: "44.100.0"

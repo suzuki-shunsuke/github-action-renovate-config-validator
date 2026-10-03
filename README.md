@@ -2,6 +2,10 @@
 
 GitHub Actions for renovate-config-validator
 
+This action runs [@suzuki-shunsuke/renovate-config-validator](https://github.com/suzuki-shunsuke/renovate-config-validator), renovate-config-validator bundled into a single file.
+It's installed in a few seconds, while installing renovate takes tens of seconds.
+The version of @suzuki-shunsuke/renovate-config-validator is the same as the version of renovate.
+
 ## :rocket: Recent Update
 
 - v2.2.0: JSONC configuration files such as renovate.jsonc are validated by default
@@ -36,6 +40,7 @@ required: false
 
 The version of renovate-config-validator.
 By default, the latest version is used.
+If @suzuki-shunsuke/renovate-config-validator of the version isn't published, renovate is installed instead.
 
 ### `config_file_path`
 
@@ -92,7 +97,7 @@ You can pass `config_file_path` through output command.
 
 required: false
 
-Enable npm cache to speed up the installation of renovate.
+Enable npm cache to speed up the installation of renovate-config-validator.
 If it's "true", the npm cache is enabled.
 By default, the npm cache is enabled.
 
