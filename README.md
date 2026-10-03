@@ -8,6 +8,7 @@ The version of @suzuki-shunsuke/renovate-config-validator is the same as the ver
 
 ## :rocket: Recent Update
 
+- v2.3.0: The bundled renovate-config-validator is used, which is installed in a few seconds. The npm cache is disabled by default
 - v2.2.0: JSONC configuration files such as renovate.jsonc are validated by default
 - v2.1.0: Cache ~/.npm by default, which improves the performance and mitigates API rate limit issues
 - v2.0.0: Node.js 24 is installed by default to support the latest Renovate
