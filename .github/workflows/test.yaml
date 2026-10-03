@@ -39,7 +39,15 @@ jobs:
         uses: ./
         with:
           config_file_path: ${{ steps.files.outputs.files }}
-      - name: Test with npm_cache disabled
+      - name: Test with npm_cache enabled
         uses: ./
         with:
-          npm_cache: "false"
+          npm_cache: "true"
+      - name: Test with a published version of the bundle
+        uses: ./
+        with:
+          validator_version: "44.125.1"
+      - name: Test falling back to renovate if the bundle of the version isn't published
+        uses: ./
+        with:
+          validator_version: "44.100.0"

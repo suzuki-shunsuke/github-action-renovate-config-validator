@@ -18,7 +18,9 @@ inputs:
     default: "true"
     required: false
   validator_version:
-    description: version of renovate-config-validator. By default, the latest version is used.
+    description: |
+      version of renovate-config-validator. By default, the latest version is used.
+      If @suzuki-shunsuke/renovate-config-validator of the version isn't published, renovate is installed instead.
     required: false
   config_file_path:
     description: |
@@ -43,9 +45,11 @@ inputs:
     required: false
   npm_cache:
     description: |
-      Enable npm cache to speed up the installation of renovate.
+      Enable npm cache.
       If it's "true", the npm cache is enabled.
-    default: "true"
+      By default, the npm cache is disabled because the bundled renovate-config-validator is small enough.
+      It may be useful when renovate is installed because @suzuki-shunsuke/renovate-config-validator of validator_version isn't published.
+    default: "false"
     required: false
 runs:
   using: composite
@@ -62,7 +66,6 @@ runs:
     - name: Validate Renovate Configuration with renovate-config-validator
       run: |
         set -eu
-        pkg=renovate
 
         opts=""
         if [ "$STRICT" = "true" ]; then
@@ -72,7 +75,17 @@ runs:
           exit 1
         fi
 
-        pkg="renovate@${VALIDATOR_VERSION:-latest}"
+        # @suzuki-shunsuke/renovate-config-validator is renovate-config-validator bundled into a single file.
+        # It's much faster to install than renovate.
+        # https://github.com/suzuki-shunsuke/renovate-config-validator
+        pkg="@suzuki-shunsuke/renovate-config-validator@${VALIDATOR_VERSION:-latest}"
+        version_cmd="renovate-config-validator --version"
+        if [ -n "$VALIDATOR_VERSION" ] && ! npm view "$pkg" version 2>/dev/null | grep -q .; then
+          # Fall back to renovate if the bundle of the version isn't published.
+          echo "::notice::$pkg isn't found, so renovate@$VALIDATOR_VERSION is used instead"
+          pkg="renovate@$VALIDATOR_VERSION"
+          version_cmd="renovate --version"
+        fi
 
         if [ -n "$CONFIG_FILE_PATH" ]; then
           files=$(echo "$CONFIG_FILE_PATH" | tr '\n' ' ')
@@ -92,7 +105,7 @@ runs:
           exit 0
         fi
 
-        version=$(npx --yes --package "$pkg" -c 'renovate --version')
+        version=$(npx --yes --package "$pkg" -c "$version_cmd")
         echo "===> running renovate $version"
         echo "===> npx --yes --package \"$pkg\" -c \"renovate-config-validator $opts $files\"" >&2
         npx --yes --package "$pkg" -c "renovate-config-validator $opts $files"
