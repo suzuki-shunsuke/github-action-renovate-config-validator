@@ -8,6 +8,7 @@ The version of @suzuki-shunsuke/renovate-config-validator is the same as the ver
 
 ## :rocket: Recent Update
 
+- v2.3.0: :zap: Much faster. Validation finishes in a few seconds instead of tens of seconds (19s → 6s in our CI) [#1224](https://github.com/suzuki-shunsuke/github-action-renovate-config-validator/pull/1224)
 - v2.2.0: JSONC configuration files such as renovate.jsonc are validated by default
 - v2.1.0: Cache ~/.npm by default, which improves the performance and mitigates API rate limit issues
 - v2.0.0: Node.js 24 is installed by default to support the latest Renovate
