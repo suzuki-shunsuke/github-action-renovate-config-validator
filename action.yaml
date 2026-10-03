@@ -45,9 +45,11 @@ inputs:
     required: false
   npm_cache:
     description: |
-      Enable npm cache to speed up the installation of renovate-config-validator.
+      Enable npm cache.
       If it's "true", the npm cache is enabled.
-    default: "true"
+      By default, the npm cache is disabled because the bundled renovate-config-validator is small enough.
+      It may be useful when renovate is installed because @suzuki-shunsuke/renovate-config-validator of validator_version isn't published.
+    default: "false"
     required: false
 runs:
   using: composite

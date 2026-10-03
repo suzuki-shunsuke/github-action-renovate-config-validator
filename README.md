@@ -97,9 +97,13 @@ You can pass `config_file_path` through output command.
 
 required: false
 
-Enable npm cache to speed up the installation of renovate-config-validator.
+Enable npm cache.
 If it's "true", the npm cache is enabled.
-By default, the npm cache is enabled.
+By default, the npm cache is disabled.
+
+The npm cache was enabled by default to speed up the installation of renovate and reduce 403 errors from the npm registry ([#1091](https://github.com/suzuki-shunsuke/github-action-renovate-config-validator/issues/1091)).
+But the bundled renovate-config-validator is small enough and depends on few packages, so the npm cache is usually unnecessary.
+It may be useful when renovate is installed because @suzuki-shunsuke/renovate-config-validator of `validator_version` isn't published.
 
 ## Output
 
