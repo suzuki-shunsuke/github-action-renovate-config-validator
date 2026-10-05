@@ -1,0 +1,67 @@
+name: renovate-config-validator
+on:
+  workflow_call:
+    inputs:
+      ref:
+        description: "checkout ref"
+        required: false
+        type: string
+      validator_version:
+        description: "version of renovate-config-validator. By default, the latest version is used."
+        required: false
+        type: string
+      config_file_path:
+        description: |
+          Renovate Configuration file
+          By default, the following files are validated.
+
+          * .github/renovate.json
+          * .github/renovate.json5
+          * .gitlab/renovate.json
+          * .gitlab/renovate.json5
+          * .renovaterc.json
+          * renovate.json
+          * renovate.json5
+          * .renovaterc
+        required: false
+        type: string
+      runs-on:
+        required: false
+        type: string
+        default: '"ubuntu-latest"'
+        description: |
+          JSON string for runs-on.
+          e.g.
+          runs-on: '"macos-latest"'
+          runs-on: '["foo"]'
+      strict:
+        required: false
+        type: boolean
+        default: true
+
+jobs:
+  renovate-config-validator:
+    timeout-minutes: 20
+    runs-on: ${{fromJSON(inputs.runs-on)}}
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        if: inputs.config_file_path == ''
+        with:
+          ref: ${{inputs.ref}}
+          persist-credentials: false
+          sparse-checkout: |
+            .github
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        if: inputs.config_file_path != ''
+        with:
+          ref: ${{inputs.ref}}
+          persist-credentials: false
+          sparse-checkout: ${{inputs.config_file_path}}
+          sparse-checkout-cone-mode: false
+      - uses: $/.
+        with:
+          validator_version: ${{inputs.validator_version}}
+          config_file_path: ${{inputs.config_file_path}}
+          strict: ${{inputs.strict}}

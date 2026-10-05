@@ -1,6 +1,8 @@
 # github-action-renovate-config-validator
 
-GitHub Actions for renovate-config-validator
+GitHub Actions and reusable workflow for renovate-config-validator
+
+[action.yaml](action.yaml), [Reusable workflow](.github/workflows/renovate-config-validator.yaml)
 
 This action runs [@suzuki-shunsuke/renovate-config-validator](https://github.com/suzuki-shunsuke/renovate-config-validator), renovate-config-validator bundled into a single file.
 It's installed in a few seconds, while installing renovate takes tens of seconds.
@@ -8,6 +10,7 @@ The version of @suzuki-shunsuke/renovate-config-validator is the same as the ver
 
 ## :rocket: Recent Update
 
+- v2.4.0: Support the reusable workflow
 - v2.3.0: :zap: Much faster. Validation finishes in a few seconds instead of tens of seconds (19s → 6s in our CI) [#1224](https://github.com/suzuki-shunsuke/github-action-renovate-config-validator/pull/1224)
 - v2.2.0: JSONC configuration files such as renovate.jsonc are validated by default
 - v2.1.0: Cache ~/.npm by default, which improves the performance and mitigates API rate limit issues
