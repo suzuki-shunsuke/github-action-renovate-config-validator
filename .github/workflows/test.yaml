@@ -3,51 +3,23 @@ name: test
 on:
   pull_request:
     branches: [main]
-  push:
-    branches: [main]
+permissions: {}
+concurrency:
+  group: ${{ github.workflow }}--${{ github.ref }}
+  cancel-in-progress: true
 jobs:
+  # Don't add jobs to this file. Please add jobs to wc_test.yaml.
   test:
-    timeout-minutes: 30
-    runs-on: ubuntu-latest
+    uses: ./.github/workflows/wc_test.yaml
+    permissions:
+      contents: read
+  status-check:
+    runs-on: ubuntu-26.04
+    if: always() && (contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled'))
+    timeout-minutes: 10
+    permissions: {}
+    needs:
+      - test
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - uses: ./
-      - name: Test a single file
-        uses: ./
-        with:
-          config_file_path: renovate.json
-      - name: Test multiple files
-        uses: ./
-        with:
-          config_file_path: |
-            renovate.json
-            tests/renovate.json
-      - id: files
-        run: |
-          set -euo pipefail
-          files=$(git ls-files | grep renovate.json)
-          # https://stackoverflow.com/a/74232400
-          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
-          {
-            echo "files<<$EOF"
-            echo "$files"
-            echo "$EOF"
-          } >> "$GITHUB_OUTPUT"
-      - name: Pass files through output
-        uses: ./
-        with:
-          config_file_path: ${{ steps.files.outputs.files }}
-      - name: Test with npm_cache enabled
-        uses: ./
-        with:
-          npm_cache: "true"
-      - name: Test with a published version of the bundle
-        uses: ./
-        with:
-          validator_version: "44.125.1"
-      - name: Test falling back to renovate if the bundle of the version isn't published
-        uses: ./
-        with:
-          validator_version: "44.100.0"
+      - run: exit 1
+  # Don't add jobs to this file. Please add jobs to wc_test.yaml.
