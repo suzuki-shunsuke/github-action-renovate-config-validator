@@ -28,7 +28,7 @@ on:
       runs-on:
         required: false
         type: string
-        default: '"ubuntu-latest"'
+        default: '"ubuntu-26.04"'
         description: |
           JSON string for runs-on.
           e.g.
